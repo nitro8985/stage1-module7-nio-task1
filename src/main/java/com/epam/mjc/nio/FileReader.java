@@ -9,11 +9,13 @@ import java.util.List;
 
 public class FileReader {
 
+    private static final int BUFFER_CAP = 512;
+
     public Profile getDataFromFile(File file) {
-        List<String> lines = new ArrayList<>(4);
+        List<String> lines = new ArrayList<>();
         try (RandomAccessFile accessFile = new RandomAccessFile(file.getAbsolutePath(), "r");
              FileChannel channel = accessFile.getChannel()) {
-            ByteBuffer buffer = ByteBuffer.allocate(512);
+            ByteBuffer buffer = ByteBuffer.allocate(BUFFER_CAP);
             channel.read(buffer);
             buffer.flip();
             lines = separateIntoLines(buffer);
